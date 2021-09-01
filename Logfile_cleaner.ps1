@@ -8,7 +8,7 @@
 $days=-0
 
 # Change if Needed:  (ConfigFile)
-$ConfigFile = "C:\Users\Costd0\Desktop\array.txt
+$ConfigFile = "C:\logfilecleaner\array.txt
 $a = [string[]](Get-Content $ConfigFile)
 
 Clear-Host
