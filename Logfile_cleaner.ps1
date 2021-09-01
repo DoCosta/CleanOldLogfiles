@@ -1,21 +1,18 @@
-﻿<# 
+<# 
     ScriptVersion: 1.0
     ScriptOwner: Dominik Costa
     ScriptFunction: Delete Old Log-Files
-    
 #>
 
 # Max Age in Days of Files, Default: 90 Days
 $days=-0
 
 # Change if Needed:  (ConfigFile)
-$ConfigFile = "C:\Users\Costd0\Desktop\array.txt"
+$ConfigFile = "C:\Users\Costd0\Desktop\array.txt
+$a = [string[]](Get-Content $ConfigFile)
 
 Clear-Host
-
 Write-Host "`nRemoving logs older than" $days "days"`n
-
-$a = [string[]](Get-Content $ConfigFile)
 
 Foreach($data in $a)
 {
