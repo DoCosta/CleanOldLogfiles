@@ -4,8 +4,48 @@
     ScriptFunction: Delete Old Log-Files
 #>
 
+function CleanAllLogfiles()
+{
+    param($FilePath)
+
+    Foreach ($File in Get-ChildItem -Recurse -Path $FilePath)
+    {
+        Set-Location $FilePath
+        if (!$File.PSIsContainerCopy) 
+        {
+            # Delete All Files with extension *.txt, *.log *.json
+            # Write-Host $File.LastWriteTime
+            if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
+            {
+                Get-ChildItem -Path $FilePath -Include *.txt*, *.log*, *.json* -File -Recurse | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-$data.maxAgeOfFile)} | foreach { $_.Delete()}
+                Write-Host "Removed logfile: "  $File
+                $i++
+            }
+        }
+    } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
+}
+
+function CleanLogfiles()
+{
+    param($FilePath)
+    Set-Location $FilePath
+    Foreach ($File in Get-ChildItem -Path $FilePath)
+    {
+        if (!$File.PSIsContainerCopy) 
+        {
+            # Delete All Files with extension *.txt, *.log *.json
+            if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
+            {
+                remove-item -path $File -force
+                Write-Host "Removed logfile: "  $File
+                $i++
+            }
+        }
+    } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
+}
+
 # Change if Needed:  (ConfigFile)
-$XmlFile = "C:\test\config.xml"
+$XmlFile = ".\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
 
 
@@ -21,47 +61,10 @@ Foreach($data in $empDetails.config.path)
     {
         # CleanAllLogfiles deletes all Files including Subdirectories
         CleanAllLogfiles($CurrentPath)
-        function CleanAllLogfiles()
-        {
-            param($FilePath)
-    
-            Foreach ($File in Get-ChildItem -Recurse -Path $FilePath)
-            {
-                Set-Location $FilePath
-                if (!$File.PSIsContainerCopy) 
-                {
-                    # Delete All Files exept *.txt, *.log *.json
-                    if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
-                    {
-                        Get-ChildItem -Path $FilePath -Include *.txt*, *.log*, *.json* -File -Recurse | foreach { $_.Delete()}
-                        Write-Host "Removed logfile: "  $File
-                        $i++
-                    }
-                }
-            } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
-        }
     }
     else
     {
         # CleanLogFiles only deletes Files on the same Path
         CleanLogfiles($CurrentPath)
-        function CleanLogfiles()
-        {
-            param($FilePath)
-            Set-Location $FilePath
-            Foreach ($File in Get-ChildItem -Path $FilePath)
-            {
-                if (!$File.PSIsContainerCopy) 
-                {
-                    # Delete All Files exept *.txt, *.log *.json
-                    if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
-                    {
-                        remove-item -path $File -force
-                        Write-Host "Removed logfile: "  $File
-                        $i++
-                    }
-                }
-            } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
-        }
     }
 }
