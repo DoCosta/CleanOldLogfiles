@@ -10,7 +10,6 @@ $XmlFile = "C:\test\config.xml"
 
 
 Clear-Host
-Write-Host "`nRemoving logs older than" $days "days"`n
 
 Foreach($data in $empDetails.config.path)
 {
