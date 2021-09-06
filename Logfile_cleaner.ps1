@@ -5,7 +5,7 @@
 #>
 
 # Change if Needed:  (ConfigFile)
-$XmlFile = "C:\Users\%USERNAME%\Desktop\config.xml"
+$XmlFile = "C:\test\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
 
 
