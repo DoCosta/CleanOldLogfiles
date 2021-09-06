@@ -55,7 +55,7 @@ Foreach($data in $empDetails.config.path)
                 if (!$File.PSIsContainerCopy) 
                 {
                     # Delete All Files exept *.txt, *.log *.json
-                    if (($File.LastWriteTime -le ($(Get-Date).Adddays($days))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
+                    if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
                     {
                         remove-item -path $File -force
                         Write-Host "Removed logfile: "  $File
