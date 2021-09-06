@@ -1,4 +1,4 @@
-<# 
+﻿<# 
     ScriptVersion: 1.0
     ScriptOwner: Dominik Costa
     ScriptFunction: Delete Old Log-Files
@@ -8,22 +8,23 @@
 $days=-0
 
 # Change if Needed:  (ConfigFile)
-$ConfigFile = "C:\logfilecleaner\array.txt
-$a = [string[]](Get-Content $ConfigFile)
+$XmlFile = "C:\Users\Costd0\Desktop\config.xml"
+[XML]$empDetails = Get-Content $XmlFile
+
 
 Clear-Host
 Write-Host "`nRemoving logs older than" $days "days"`n
 
-Foreach($data in $a)
+Foreach($data in $empDetails.config.path)
 {
-    $CurrentLine = $data.Split((";"))
-    Write-Host "`nDelete Sub-Folders: " $CurrentLine[1]
+    $CurrentPath = $data.directory
+    Write-Host "`nDelete Sub-Folders: " $CurrentPath
     $i = 0
 
-    if($CurrentLine[1] -Like "true")
+    if($data.deleteSubDirectories -Like "true")
     {
         # CleanAllLogfiles deletes all Files including Subdirectories
-        CleanAllLogfiles($CurrentLine[0])
+        CleanAllLogfiles($CurrentPath)
         function CleanAllLogfiles()
         {
             param($FilePath)
@@ -34,20 +35,20 @@ Foreach($data in $a)
                 if (!$File.PSIsContainerCopy) 
                 {
                     # Delete All Files exept *.txt, *.log *.json
-                    if (($File.LastWriteTime -le ($(Get-Date).Adddays($days))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
+                    if (($File.LastWriteTime -le ($(Get-Date).Adddays(-$data.maxAgeOfFile))) -and (($File -Like "*.txt") -or ($File -Like "*.json") -or ($File -Like "*.log")))
                     {
                         Get-ChildItem -Path $FilePath -Include *.txt*, *.log*, *.json* -File -Recurse | foreach { $_.Delete()}
                         Write-Host "Removed logfile: "  $File
                         $i++
                     }
                 }
-            } Write-Host "In '$($CurrentLine[0])' wurden $i Files gelöscht`n"
+            } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
         }
     }
     else
     {
         # CleanLogFiles only deletes Files on the same Path
-        CleanLogfiles($CurrentLine[0])
+        CleanLogfiles($CurrentPath)
         function CleanLogfiles()
         {
             param($FilePath)
@@ -64,7 +65,7 @@ Foreach($data in $a)
                         $i++
                     }
                 }
-            } Write-Host "In '$($CurrentLine[0])' wurden $i Files gelöscht`n"
+            } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
         }
     }
 }
