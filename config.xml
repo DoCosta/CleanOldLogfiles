@@ -1,0 +1,7 @@
+<config>
+    <path>
+        <directory>d:\applogging</directory>
+        <deleteSubDirectories>True</deleteSubDirectories>
+        <maxAgeOfFile>30</maxAgeOfFile>
+    </path>
+</config>
