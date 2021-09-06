@@ -2,7 +2,7 @@
 This Script Deletes Old Logfiles.
 
 
-To include Paths to the Logfile cleaner you will habe to create a xml file.
+To include Paths to the Logfile cleaner you will have to create a xml file.
 In the File you'll need to use following pattern:
 
 true and false is the boolean for "delete sub-directories"
