@@ -4,9 +4,6 @@
     ScriptFunction: Delete Old Log-Files
 #>
 
-# Max Age in Days of Files, Default: 90 Days
-$days=-0
-
 # Change if Needed:  (ConfigFile)
 $XmlFile = "C:\Users\%USERNAME%\Desktop\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
