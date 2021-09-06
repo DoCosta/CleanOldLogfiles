@@ -7,29 +7,6 @@ In the File you'll need to use following pattern:
 
 true and false is the boolean for "delete sub-directories"
 
-<config>
-	<path>
-		<directory>C:\Users\test</directory>
-		
-		<deleteSubDirectories>True</deleteSubDirectories>
-		
-		<maxAgeOfFile>230</maxAgeOfFile>
-		
-	</path>
-	<path>
-		<directory>C:\Users\test\Downloads</directory>
-		
-		<deleteSubDirectories>True</deleteSubDirectories>
-		
-		<maxAgeOfFile>10</maxAgeOfFile>
-		
-	</path>
-	<path>
-		<directory>C:\Users\test\daasds</directory>
-		
-		<deleteSubDirectories>True</deleteSubDirectories>
-		
-		<maxAgeOfFile>10</maxAgeOfFile>
-		
-	</path>
-</config>
+![Picture](https://user-images.githubusercontent.com/73685269/132170081-1b4f9a78-183a-4733-98fb-33b1f1c76a7d.jpg)
+
+
