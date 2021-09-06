@@ -8,7 +8,7 @@
 $days=-0
 
 # Change if Needed:  (ConfigFile)
-$XmlFile = "C:\Users\Costd0\Desktop\config.xml"
+$XmlFile = "C:\Users\%USERNAME%\Desktop\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
 
 
