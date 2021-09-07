@@ -1,12 +1,9 @@
-$standardPath = Get-Location
-
 function CleanAllLogfiles()
 {
     param($FilePath)
 
     Foreach ($File in Get-ChildItem -Recurse -Path $FilePath)
     {
-        Set-Location $FilePath
         if (!$File.PSIsContainerCopy) 
         {
             # Delete All Files with extension *.txt, *.log *.json
@@ -40,12 +37,15 @@ function CleanLogfiles()
             }
         }
     } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
+    
+    Set-Location $standardPath
 }
 
 
 # Change if Needed:  (ConfigFile)
 $XmlFile = ".\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
+$standardPath = Get-Location
 
 Clear-Host
 
