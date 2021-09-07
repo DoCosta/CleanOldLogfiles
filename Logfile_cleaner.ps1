@@ -1,8 +1,4 @@
-﻿<# 
-    ScriptVersion: 1.0
-    ScriptOwner: Dominik Costa
-    ScriptFunction: Delete Old Log-Files
-#>
+$standardPath = Get-Location
 
 function CleanAllLogfiles()
 {
@@ -23,6 +19,8 @@ function CleanAllLogfiles()
             }
         }
     } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
+    
+    Set-Location $standardPath
 }
 
 function CleanLogfiles()
@@ -44,10 +42,10 @@ function CleanLogfiles()
     } Write-Host "In '$($CurrentPath)' wurden $i Files gelöscht`n"
 }
 
+
 # Change if Needed:  (ConfigFile)
 $XmlFile = ".\config.xml"
 [XML]$empDetails = Get-Content $XmlFile
-
 
 Clear-Host
 
@@ -56,7 +54,7 @@ Foreach($data in $empDetails.config.path)
     $CurrentPath = $data.directory
     Write-Host "`nDelete Sub-Folders: " $CurrentPath
     $i = 0
-
+    
     if($data.deleteSubDirectories -Like "true")
     {
         # CleanAllLogfiles deletes all Files including Subdirectories
